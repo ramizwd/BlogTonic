@@ -1,1 +1,1 @@
-## BlogTonic fontend
+## BlogTonic frontend
