@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button } from '@mui/material';
+import { Box, Button, Card, CardContent, Container, Typography } from '@mui/material';
 import { LOGIN_USER, REGISTER_USER } from '../graphql/mutations';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
@@ -52,22 +52,35 @@ const AuthPage = () => {
   }, [isLogin]);
 
   return (
-    <div>
-      {isLogin ? (
-        <LoginForm
-          values={loginForm.values}
-          handleChange={loginForm.handleChange}
-          handleSubmit={loginForm.handleSubmit}
-        />
-      ) : (
-        <RegisterForm
-          values={registerForm.values}
-          handleChange={registerForm.handleChange}
-          handleSubmit={registerForm.handleSubmit}
-        />
-      )}
-      <Button onClick={() => setIsLogin(!isLogin)}>{isLogin ? 'Register Page' : 'Login Page'}</Button>
-    </div>
+    <Container maxWidth="sm">
+      <Box mt={4}>
+        <Card elevation={5}>
+          <CardContent>
+            <Typography variant="h4" component="h1" align="center" gutterBottom>
+              {isLogin ? 'Login' : 'Register'}
+            </Typography>
+            {isLogin ? (
+              <LoginForm
+                values={loginForm.values}
+                handleChange={loginForm.handleChange}
+                handleSubmit={loginForm.handleSubmit}
+              />
+            ) : (
+              <RegisterForm
+                values={registerForm.values}
+                handleChange={registerForm.handleChange}
+                handleSubmit={registerForm.handleSubmit}
+              />
+            )}
+            <Box mt={2} textAlign="center">
+              <Button variant="text" onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? 'Create an account' : 'Already have an account? Login'}
+              </Button>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 
