@@ -6,9 +6,12 @@ import { GRAPHQL_API } from '../utils/constants';
 import { useForm } from '../hooks/useForm';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
+import { useNavigate } from 'react-router-dom';
 
-const AuthPage = () => {
+export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(false);
+
+  const navigate = useNavigate();
 
   const registerForm = useForm({ email: '', username: '', password: '' }, async (values) => {
     if (!values.email || !values.username || !values.password) {
@@ -40,7 +43,11 @@ const AuthPage = () => {
 
     try {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
-      console.log('user: ', user);
+
+      if (user) {
+        navigate('/home');
+        console.log('user: ', user);
+      }
     } catch (error) {
       console.error('Error: ', error);
     }
@@ -83,5 +90,3 @@ const AuthPage = () => {
     </Container>
   );
 };
-
-export { AuthPage };
