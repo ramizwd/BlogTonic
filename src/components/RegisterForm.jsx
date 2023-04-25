@@ -4,8 +4,8 @@ import React from 'react';
 export const RegisterForm = ({ values, handleChange, handleSubmit }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <p>usernames must be min 3 char and max 20 and is numeric</p>
-      <p>password must be min 6 char</p>
+      <p>Username can only contain alphanumeric characters and between 3 and 20 characters long</p>
+      <p>Password must be at least 6 characters long</p>
       <Box>
         <Stack spacing={2}>
           <TextField name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
