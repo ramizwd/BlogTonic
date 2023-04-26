@@ -18,28 +18,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <React.Fragment>
-        <AuthContext.Provider
-          value={{
-            token: token,
-            userId: userId,
-            login: login,
-            logout: logout,
-          }}
-        >
-          {showNavigation && <MainNavigation />}
-          <Routes>
-            {!token && <Route path="/" element={<Navigate to="/auth" />}></Route>}
-            {!token && <Route path="/home" element={<Navigate to="/auth" />}></Route>}
-            {token && <Route path="/" element={<Navigate to="/home" />}></Route>}
-            {token && <Route path="/auth" element={<Navigate to="/home" />}></Route>}
-            {!token && <Route path="/home" element={<Navigate to="/auth" />}></Route>}
-            {!token && <Route path="/auth" element={<AuthPage />}></Route>}
-            {token && <Route path="/home" element={<HomePage />}></Route>}
-            <Route path="*" element={<NotFoundPage />}></Route>
-          </Routes>
-        </AuthContext.Provider>
-      </React.Fragment>
+      <AuthContext.Provider
+        value={{
+          token: token,
+          userId: userId,
+          login: login,
+          logout: logout,
+        }}
+      >
+        {showNavigation && <MainNavigation />}
+        <Routes>
+          {!token && <Route path="/" element={<Navigate to="/auth" />}></Route>}
+          {!token && <Route path="/home" element={<Navigate to="/auth" />}></Route>}
+          {token && <Route path="/" element={<Navigate to="/home" />}></Route>}
+          {token && <Route path="/auth" element={<Navigate to="/home" />}></Route>}
+          {!token && <Route path="/home" element={<Navigate to="/auth" />}></Route>}
+          {!token && <Route path="/auth" element={<AuthPage />}></Route>}
+          {token && <Route path="/home" element={<HomePage />}></Route>}
+          <Route path="*" element={<NotFoundPage />}></Route>
+        </Routes>
+      </AuthContext.Provider>
     </div>
   );
 };
