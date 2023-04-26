@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Button, Card, CardContent, Container, Typography } from '@mui/material';
 import { LOGIN_USER, REGISTER_USER } from '../graphql/mutations';
 import { fetchGql } from '../graphql/fetch';
@@ -6,10 +6,12 @@ import { GRAPHQL_API } from '../utils/constants';
 import { useForm } from '../hooks/useForm';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 export const AuthPage = () => {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -45,8 +47,8 @@ export const AuthPage = () => {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
 
       if (user) {
-        navigate('/home');
-        console.log('user: ', user);
+        login(user.login.token, user.login.user.id);
+        navigate('/home', { replace: true });
       }
     } catch (error) {
       console.error('Error: ', error);
@@ -80,9 +82,9 @@ export const AuthPage = () => {
               />
             )}
             <Box mt={2} textAlign="center">
-              <Button variant="text" onClick={() => setIsLogin(!isLogin)}>
+              <Link variant="text" onClick={() => setIsLogin(!isLogin)}>
                 {isLogin ? 'Create an account' : 'Already have an account? Login'}
-              </Button>
+              </Link>
             </Box>
           </CardContent>
         </Card>
