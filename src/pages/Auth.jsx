@@ -47,6 +47,8 @@ export const AuthPage = () => {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
 
       if (user) {
+        sessionStorage.setItem('token', user.login.token);
+        sessionStorage.setItem('userId', user.login.user.id);
         login(user.login.token, user.login.user.id);
         navigate('/home', { replace: true });
       }
@@ -56,6 +58,12 @@ export const AuthPage = () => {
   });
 
   useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    const userId = sessionStorage.getItem('userId');
+    if (token) {
+      login(token, userId);
+      navigate('/home', { replace: true });
+    }
     registerForm.reset();
     loginForm.reset();
   }, [isLogin]);

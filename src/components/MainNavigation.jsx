@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { AppBar, Toolbar, Menu, MenuItem, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
+import AuthContext from '../context/AuthContext';
 
 const MainNavigation = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { logout } = useContext(AuthContext);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -14,6 +16,9 @@ const MainNavigation = () => {
     setAnchorEl(null);
   };
 
+  const token = sessionStorage.getItem('token');
+  const user = sessionStorage.getItem('userId');
+
   return (
     <AppBar position="fixed" sx={{ boxShadow: 'none', backgroundColor: 'white', borderBottom: '1px solid lightgray' }}>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -22,7 +27,7 @@ const MainNavigation = () => {
         </Typography>
         <div className="nav-right">
           <Button onClick={handleClick} sx={{ mr: 2 }}>
-            LOGIN
+            {token ? user : 'LOGIN'}
           </Button>
           <Menu
             id="menu-appbar"
@@ -39,9 +44,7 @@ const MainNavigation = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>
-              <Link to="/auth">Login</Link>
-            </MenuItem>
+            <MenuItem onClick={handleClose}>{token && <Button onClick={() => logout()}>LOGOUT</Button>}</MenuItem>
           </Menu>
         </div>
       </Toolbar>
