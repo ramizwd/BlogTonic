@@ -7,7 +7,7 @@ export const HomePage = () => {
   return (
     <div>
       Home
-      <Button onClick={() => navigate('/auth', { replace: true })}>Auth</Button>
+      {/* <Button onClick={() => navigate('/auth', { replace: true })}>Auth</Button> */}
     </div>
   );
 };
