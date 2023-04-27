@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Card, CardContent, Container, Typography } from '@mui/material';
 import { LOGIN_USER, REGISTER_USER } from '../graphql/mutations';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
 import { useForm } from '../hooks/useForm';
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+import { LoginForm } from '../components/LoginForm';
+import { RegisterForm } from '../components/RegisterForm';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const { login } = useContext(AuthContext);
 
+  const auth = useAuth();
   const navigate = useNavigate();
 
   const registerForm = useForm({ email: '', username: '', password: '' }, async (values) => {
@@ -26,31 +26,30 @@ export const AuthPage = () => {
     };
 
     try {
-      const user = await fetchGql(GRAPHQL_API, REGISTER_USER, userData);
-      console.log('user: ', user);
+      await fetchGql(GRAPHQL_API, REGISTER_USER, userData);
     } catch (error) {
       console.error('Error: ', error);
     }
   });
 
   const loginForm = useForm({ username: '', password: '' }, async (values) => {
-    if (!values.username || !values.password) {
-      console.log('missing fields');
-      return;
-    }
+    // if (!values.username || !values.password) {
+    //   console.log('missing fields');
+    //   return;
+    // }
 
     const userData = {
-      credentials: { username: values.username, password: values.password },
+      //   credentials: { username: values.username, password: values.password },
+      credentials: { username: 'admin@admin.com', password: 'admin123' },
     };
 
     try {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
 
       if (user) {
-        sessionStorage.setItem('token', user.login.token);
-        sessionStorage.setItem('userId', user.login.user.id);
-        login(user.login.token, user.login.user.id, user);
-        navigate('/home', { replace: true });
+        sessionStorage.setItem('user', JSON.stringify(user.login));
+        auth.login(user.login);
+        navigate('/', { replace: true });
       }
     } catch (error) {
       console.error('Error: ', error);
@@ -58,13 +57,14 @@ export const AuthPage = () => {
   });
 
   useEffect(() => {
-    const token = sessionStorage.getItem('token');
-    const userId = sessionStorage.getItem('userId');
+    const userStr = sessionStorage.getItem('user');
+    const user = JSON.parse(userStr);
 
-    if (token) {
-      login(token, userId);
-      navigate('/home', { replace: true });
+    if (user) {
+      auth.login(user);
+      navigate('/', { replace: true });
     }
+
     registerForm.reset();
     loginForm.reset();
   }, [isLogin]);

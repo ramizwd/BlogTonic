@@ -1,20 +1,6 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export const useAuth = () => {
-  const [token, setToken] = useState(null);
-  const [userId, setUserId] = useState(null);
-
-  const login = (token, userId) => {
-    setToken(token);
-    setUserId(userId);
-  };
-
-  const logout = () => {
-    setToken(null);
-    setUserId(null);
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('userId');
-  };
-
-  return { token, userId, login, logout };
+  return useContext(AuthContext);
 };
