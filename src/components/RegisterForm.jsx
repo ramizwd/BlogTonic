@@ -19,5 +19,3 @@ export const RegisterForm = ({ values, handleChange, handleSubmit }) => {
     </form>
   );
 };
-
-export default RegisterForm;
