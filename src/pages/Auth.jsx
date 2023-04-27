@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, Container, Typography } from '@mui/material';
+import { Box, Card, CardContent, Container, Typography } from '@mui/material';
 import { LOGIN_USER, REGISTER_USER } from '../graphql/mutations';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
@@ -49,7 +49,7 @@ export const AuthPage = () => {
       if (user) {
         sessionStorage.setItem('token', user.login.token);
         sessionStorage.setItem('userId', user.login.user.id);
-        login(user.login.token, user.login.user.id);
+        login(user.login.token, user.login.user.id, user);
         navigate('/home', { replace: true });
       }
     } catch (error) {
@@ -60,6 +60,7 @@ export const AuthPage = () => {
   useEffect(() => {
     const token = sessionStorage.getItem('token');
     const userId = sessionStorage.getItem('userId');
+
     if (token) {
       login(token, userId);
       navigate('/home', { replace: true });
@@ -71,7 +72,7 @@ export const AuthPage = () => {
   return (
     <Container maxWidth="sm">
       <Box mt={4}>
-        <Card elevation={5}>
+        <Card elevation={4}>
           <CardContent>
             <Typography variant="h4" component="h1" align="center" gutterBottom>
               {isLogin ? 'Login' : 'Register'}

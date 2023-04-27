@@ -6,7 +6,7 @@ export const LoginForm = ({ values, handleChange, handleSubmit }) => {
     <form onSubmit={handleSubmit}>
       <Box>
         <Stack spacing={2}>
-          <TextField name="username" label="Username" value={values.username} onChange={handleChange} />
+          <TextField name="username" label="Email" value={values.username} onChange={handleChange} />
           <TextField name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
           <Button variant="contained" type="submit">
             Login

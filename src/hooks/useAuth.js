@@ -13,6 +13,7 @@ export const useAuth = () => {
     setToken(null);
     setUserId(null);
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('userId');
   };
 
   return { token, userId, login, logout };
