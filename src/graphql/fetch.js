@@ -1,13 +1,15 @@
 export const fetchGql = async (url, query, variables, token) => {
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
 
   const res = await fetch(url, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({
       query,
       variables,

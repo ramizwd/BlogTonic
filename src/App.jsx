@@ -7,6 +7,7 @@ import React from 'react';
 import { NotFoundPage } from './pages/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { CreatePost } from './pages/CreatePost';
 
 const App = () => {
   const location = useLocation();
@@ -26,6 +27,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <HomePage />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="/create-post"
+            element={
+              <ProtectedRoute>
+                <CreatePost />
               </ProtectedRoute>
             }
           ></Route>
