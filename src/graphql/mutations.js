@@ -36,6 +36,8 @@ mutation CreatePost($title: String!, $content: String!) {
       id
       title
       content
+      createdAt
+      updatedAt
     }
   }
 `;
