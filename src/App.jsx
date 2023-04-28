@@ -8,6 +8,7 @@ import { NotFoundPage } from './pages/NotFound';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { CreatePost } from './pages/CreatePost';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   const location = useLocation();
@@ -18,6 +19,7 @@ const App = () => {
   return (
     <div className="App">
       <AuthProvider>
+        <Toaster position="bottom-center" />
         {showNavigation && <MainNavigation />}
         <Routes>
           <Route path="/auth" element={<AuthPage />}></Route>

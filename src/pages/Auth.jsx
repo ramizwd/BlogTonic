@@ -8,6 +8,7 @@ import { LoginForm } from '../components/LoginForm';
 import { RegisterForm } from '../components/RegisterForm';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { toast } from 'react-hot-toast';
 
 export const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -22,7 +23,10 @@ export const AuthPage = () => {
 
     try {
       await fetchGql(GRAPHQL_API, REGISTER_USER, userData);
+      toast.success('User registered successfully!');
+      setIsLogin(true);
     } catch (error) {
+      toast.error('Something went wrong! Please check your credentials.');
       console.error('Error: ', error);
     }
   });
@@ -36,11 +40,13 @@ export const AuthPage = () => {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
 
       if (user) {
+        toast.success('User logged in successfully!');
         sessionStorage.setItem('user', JSON.stringify(user.login));
         auth.login(user.login);
         navigate('/', { replace: true });
       }
     } catch (error) {
+      toast.error('Something went wrong! Please check your credentials.');
       console.error('Error: ', error);
     }
   });

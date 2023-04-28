@@ -81,9 +81,7 @@ export const HomePage = () => {
                     <Typography variant="subtitle2" sx={{ textAlign: 'left', fontWeight: 'bold' }}>
                       by {post.author.username}
                     </Typography>
-                    <Typography variant="subtitle2" sx={{ textAlign: 'right' }}>
-                      {new Date(post.createdAt).toLocaleDateString()}
-                    </Typography>
+                    <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
                   </Box>
                   <Typography variant="h5" sx={{ marginTop: '.5rem', textAlign: 'left' }}>
                     {post.title}
