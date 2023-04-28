@@ -34,7 +34,16 @@ const MainNavigation = () => {
   };
 
   return (
-    <AppBar position="fixed" sx={{ boxShadow: 'none', backgroundColor: 'white', borderBottom: '1px solid lightgray' }}>
+    <AppBar
+      position="fixed"
+      sx={{
+        boxShadow: 'none',
+        borderBottom: '1px solid lightgray',
+        background: 'rgba(255, 255, 255, 0.25)',
+        backdropFilter: 'blur(10px)',
+        color: '#fff',
+      }}
+    >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant="h6" component="div">
           <Link to="/home">BLOGTONIC</Link>

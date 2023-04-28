@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { CreatePost } from './pages/CreatePost';
 import { Toaster } from 'react-hot-toast';
+import { PostDetailPage } from './pages/PostDetail';
 
 const App = () => {
   const location = useLocation();
@@ -40,6 +41,14 @@ const App = () => {
               </ProtectedRoute>
             }
           ></Route>
+          <Route
+            path="/post/:postId"
+            element={
+              <ProtectedRoute>
+                <PostDetailPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
       </AuthProvider>
