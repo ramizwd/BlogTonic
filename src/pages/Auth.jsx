@@ -16,11 +16,6 @@ export const AuthPage = () => {
   const navigate = useNavigate();
 
   const registerForm = useForm({ email: '', username: '', password: '' }, async (values) => {
-    if (!values.email || !values.username || !values.password) {
-      console.log('missing fields');
-      return;
-    }
-
     const userData = {
       user: { email: values.email, username: values.username, password: values.password },
     };
@@ -33,14 +28,8 @@ export const AuthPage = () => {
   });
 
   const loginForm = useForm({ username: '', password: '' }, async (values) => {
-    // if (!values.username || !values.password) {
-    //   console.log('missing fields');
-    //   return;
-    // }
-
     const userData = {
-      //   credentials: { username: values.username, password: values.password },
-      credentials: { username: 'admin@admin.com', password: 'admin123' },
+      credentials: { username: values.username, password: values.password },
     };
 
     try {

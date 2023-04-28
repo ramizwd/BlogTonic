@@ -24,3 +24,18 @@ mutation Login($credentials: Credentials!) {
     }
   }
 `;
+
+export const CREATE_POST = `
+mutation CreatePost($title: String!, $content: String!) {
+    createPost(title: $title, content: $content) {
+      author {
+        id
+        email
+        username
+      }
+      id
+      title
+      content
+    }
+  }
+`;

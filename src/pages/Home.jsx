@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { GET_POSTS } from '../graphql/queries';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API, MAX_CONTENT_LENGTH } from '../utils/constants';
-import { Container, Typography, Grid, Card, CardContent, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Container, Typography, Grid, Card, CardContent, Button, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
   const [posts, setPosts] = useState(null);
+
+  const navigator = useNavigate();
 
   const getPosts = async () => {
     try {
@@ -32,6 +34,10 @@ export const HomePage = () => {
     return `${content.substring(0, MAX_CONTENT_LENGTH)}...`;
   };
 
+  const createBlogPage = () => {
+    navigator('/create-post');
+  };
+
   return (
     <Container
       maxWidth="sm"
@@ -43,16 +49,18 @@ export const HomePage = () => {
       }}
     >
       {posts.length === 0 ? (
-        <div>
+        <Box>
           <Typography sx={{ paddingBottom: '2rem' }} variant="h5">
             No blogs yet!
           </Typography>
-          <Button variant="contained">Create a Blog</Button>
-        </div>
+          <Button onClick={createBlogPage} variant="contained">
+            Create a Blog
+          </Button>
+        </Box>
       ) : (
-        <Grid container spacing={2} direction="column">
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {posts.map((post) => (
-            <Grid item key={post.id}>
+            <Box item key={post.id} sx={{ paddingBottom: '1rem' }}>
               <Card
                 sx={{
                   width: '100%',
@@ -60,6 +68,7 @@ export const HomePage = () => {
                   maxHeight: '10rem',
                   border: '1px solid #ddd',
                   boxShadow: 'none',
+                  minWidth: '40rem',
                   '&:hover': {
                     boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.2)',
                   },
@@ -78,9 +87,9 @@ export const HomePage = () => {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Box>
           ))}
-        </Grid>
+        </Box>
       )}
     </Container>
   );

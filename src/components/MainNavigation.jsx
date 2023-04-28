@@ -22,8 +22,15 @@ const MainNavigation = () => {
   };
 
   const logout = () => {
+    setAnchorEl(null);
     auth.logout();
     navigate('/auth', { replace: true });
+  };
+
+  const createBlogPage = () => {
+    setAnchorEl(null);
+
+    navigate('/create-post');
   };
 
   return (
@@ -51,7 +58,8 @@ const MainNavigation = () => {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleClose}>{<Button onClick={logout}>LOGOUT</Button>}</MenuItem>
+            <MenuItem onClick={createBlogPage}>New Post</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </div>
       </Toolbar>

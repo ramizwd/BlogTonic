@@ -8,9 +8,16 @@ export const RegisterForm = ({ values, handleChange, handleSubmit }) => {
       <Typography> Password must be at least 6 characters long </Typography>
       <Box>
         <Stack spacing={2}>
-          <TextField name="email" label="Email" type="email" value={values.email} onChange={handleChange} />
-          <TextField name="username" label="Username" value={values.username} onChange={handleChange} />
-          <TextField name="password" label="Password" type="password" value={values.password} onChange={handleChange} />
+          <TextField name="email" label="Email" type="email" required value={values.email} onChange={handleChange} />
+          <TextField name="username" label="Username" required value={values.username} onChange={handleChange} />
+          <TextField
+            name="password"
+            label="Password"
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            required
+          />
           <Button variant="contained" type="submit">
             Register
           </Button>
