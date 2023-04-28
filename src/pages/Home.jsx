@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GET_POSTS } from '../graphql/queries';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API, MAX_CONTENT_LENGTH } from '../utils/constants';
-import { Container, Typography, Grid, Card, CardContent, Button, Box } from '@mui/material';
+import { Container, Typography, Card, CardContent, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
@@ -13,6 +13,7 @@ export const HomePage = () => {
   const getPosts = async () => {
     try {
       const posts = await fetchGql(GRAPHQL_API, GET_POSTS);
+      console.log('Posts: ', posts);
       setPosts(posts.posts);
     } catch (error) {
       console.error('Error: ', error);
@@ -60,7 +61,7 @@ export const HomePage = () => {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {posts.map((post) => (
-            <Box item key={post.id} sx={{ paddingBottom: '1rem' }}>
+            <Box key={post.id} sx={{ paddingBottom: '1rem' }}>
               <Card
                 sx={{
                   width: '100%',
@@ -76,9 +77,14 @@ export const HomePage = () => {
                 }}
               >
                 <CardContent>
-                  <Typography variant="subtitle2" sx={{ textAlign: 'left', fontWeight: 'bold' }}>
-                    by {post.author.username}
-                  </Typography>
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography variant="subtitle2" sx={{ textAlign: 'left', fontWeight: 'bold' }}>
+                      by {post.author.username}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ textAlign: 'right' }}>
+                      {new Date(post.createdAt).toLocaleDateString()}
+                    </Typography>
+                  </Box>
                   <Typography variant="h5" sx={{ marginTop: '.5rem', textAlign: 'left' }}>
                     {post.title}
                   </Typography>

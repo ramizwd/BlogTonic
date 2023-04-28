@@ -9,6 +9,8 @@ query Posts {
         email
         username
       }
+      createdAt
+      updatedAt
     }
   }
 `;
