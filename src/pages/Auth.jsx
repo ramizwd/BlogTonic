@@ -32,8 +32,9 @@ export const AuthPage = () => {
   });
 
   const loginForm = useForm({ username: '', password: '' }, async (values) => {
+    const lowerCase = values.username.toLowerCase();
     const userData = {
-      credentials: { username: values.username, password: values.password },
+      credentials: { username: lowerCase, password: values.password },
     };
 
     try {

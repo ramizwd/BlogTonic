@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { GET_POSTS } from '../graphql/queries';
 import { fetchGql } from '../graphql/fetch';
-import { GRAPHQL_API, MAX_CONTENT_LENGTH } from '../utils/constants';
+import { GRAPHQL_API, MAX_CONTENT_LENGTH, MAX_TITLE_LENGTH } from '../utils/constants';
 import { Container, Typography, Card, CardContent, Button, Box } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { truncateText } from '../utils/truncate';
 
 export const HomePage = () => {
   const [posts, setPosts] = useState(null);
@@ -28,13 +29,6 @@ export const HomePage = () => {
   if (posts === null) {
     return <Typography>Loading...</Typography>;
   }
-
-  const truncateContent = (content) => {
-    if (content.length <= MAX_CONTENT_LENGTH) {
-      return content;
-    }
-    return `${content.substring(0, MAX_CONTENT_LENGTH)}...`;
-  };
 
   const createBlogPage = () => {
     navigator('/create-post');
@@ -86,10 +80,10 @@ export const HomePage = () => {
                       <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
                     </Box>
                     <Typography variant="h5" sx={{ marginTop: '.5rem', textAlign: 'left' }}>
-                      {post.title}
+                      {truncateText(post.title, MAX_TITLE_LENGTH)}
                     </Typography>
                     <Typography variant="body1" sx={{ marginTop: '.5rem', textAlign: 'left', color: '#888' }}>
-                      {truncateContent(post.content)}
+                      {truncateText(post.content, MAX_CONTENT_LENGTH)}
                     </Typography>
                   </CardContent>
                 </Card>

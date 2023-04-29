@@ -49,19 +49,25 @@ const MainNavigation = () => {
           <Link to="/home">BLOGTONIC</Link>
         </Typography>
         <div className="nav-right">
-          <Button onClick={handleClick} sx={{ mr: 2 }}>
+          <Button
+            onClick={handleClick}
+            sx={{
+              mr: 2,
+              outline: 'none !important',
+            }}
+          >
             {user ? user.user.username : 'LOGIN'}
           </Button>
           <Menu
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             keepMounted
             transformOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             open={Boolean(anchorEl)}
