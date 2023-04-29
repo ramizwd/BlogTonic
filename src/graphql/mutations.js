@@ -60,3 +60,11 @@ mutation UpdatePost($updatePost: UpdatePostInput!) {
     }
   }
 `;
+
+export const DELETE_POST = `
+mutation DeletePost($deletePostId: ID!) {
+    deletePost(id: $deletePostId) {
+      id
+    }
+  }
+`;

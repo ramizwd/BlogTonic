@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GET_POSTS } from '../graphql/queries';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API, MAX_CONTENT_LENGTH, MAX_TITLE_LENGTH } from '../utils/constants';
-import { Container, Typography, Card, CardContent, Button, Box } from '@mui/material';
+import { Container, Typography, Card, CardContent, Button, Box, CircularProgress } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { truncateText } from '../utils/truncate';
@@ -27,7 +27,7 @@ export const HomePage = () => {
   }, []);
 
   if (posts === null) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress color="inherit" />;
   }
 
   const createBlogPage = () => {

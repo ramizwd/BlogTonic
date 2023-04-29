@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import { CircularProgress, Typography } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { BlogPostForm } from '../components/PostForm';
 import { useAuth } from '../hooks/useAuth';
@@ -15,7 +15,7 @@ export const EditPostPage = () => {
 
   const { postId } = useParams();
 
-  const user = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const updateForm = useForm({ title: '', content: '' }, async (values) => {
@@ -28,7 +28,7 @@ export const EditPostPage = () => {
     };
 
     try {
-      const updatedPost = await fetchGql(GRAPHQL_API, UPDATE_POST, updateData, user.user.token);
+      const updatedPost = await fetchGql(GRAPHQL_API, UPDATE_POST, updateData, user.token);
 
       if (updatedPost) {
         toast.success('Blog updated!');
@@ -63,7 +63,7 @@ export const EditPostPage = () => {
   }, [postId]);
 
   if (isLoading) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress color="inherit" />;
   }
 
   return (
