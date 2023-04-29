@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Box, Container, Typography, Menu, MenuItem, IconButton, CircularProgress } from '@mui/material';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
 import { GET_POST_BY_ID } from '../graphql/queries';
+import { DELETE_POST } from '../graphql/mutations';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Box, Container, Typography, Menu, MenuItem, IconButton } from '@mui/material';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -15,7 +16,7 @@ export const PostDetailPage = () => {
   const { postId } = useParams();
   const { user } = useAuth();
 
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -37,12 +38,31 @@ export const PostDetailPage = () => {
     }
   };
 
+  const deletePost = async (id) => {
+    try {
+      const deleteData = {
+        deletePostId: id,
+      };
+
+      const res = await fetchGql(GRAPHQL_API, DELETE_POST, deleteData, user.token);
+
+      if (res) {
+        handleMenuClose();
+        toast.success(`Blog deleted with ID ${res.deletePost.id}`);
+        navigate(`/`, { replace: true });
+      }
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.error('Error: ', error);
+    }
+  };
+
   useEffect(() => {
     getPost(postId);
   }, [postId]);
 
   if (post === null) {
-    return <Typography>Loading...</Typography>;
+    return <CircularProgress color="inherit" />;
   }
 
   return (
@@ -61,11 +81,12 @@ export const PostDetailPage = () => {
                 <MenuItem
                   onClick={() => {
                     handleMenuClose();
-                    navigator(`/edit-post/${postId}`);
+                    navigate(`/edit-post/${postId}`);
                   }}
                 >
                   Edit
                 </MenuItem>
+                <MenuItem onClick={() => deletePost(postId)}>Delete</MenuItem>
               </Menu>
             </>
           )}

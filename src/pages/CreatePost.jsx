@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 export const CreatePost = () => {
-  const user = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const postForm = useForm({ title: '', content: '' }, async (values) => {
@@ -19,7 +19,7 @@ export const CreatePost = () => {
     };
 
     try {
-      const post = await fetchGql(GRAPHQL_API, CREATE_POST, postData, user.user.token);
+      const post = await fetchGql(GRAPHQL_API, CREATE_POST, postData, user.token);
 
       if (post) {
         toast.success('Blog published!');
