@@ -10,6 +10,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { CreatePost } from './pages/CreatePost';
 import { Toaster } from 'react-hot-toast';
 import { PostDetailPage } from './pages/PostDetail';
+import { EditPostPage } from './pages/EditPost';
 
 const App = () => {
   const location = useLocation();
@@ -46,6 +47,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <PostDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-post/:postId"
+            element={
+              <ProtectedRoute>
+                <EditPostPage />
               </ProtectedRoute>
             }
           />
