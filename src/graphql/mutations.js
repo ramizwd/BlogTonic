@@ -26,6 +26,20 @@ mutation Login($credentials: Credentials!) {
   }
 `;
 
+export const UPDATE_USER = `
+mutation UpdateUser($user: UserModify!) {
+    updateUser(user: $user) {
+      message
+      user {
+        id
+        email
+        username
+      }
+      token
+    }
+  }
+`;
+
 // Post Mutations
 export const CREATE_POST = `
 mutation CreatePost($title: String!, $content: String!) {

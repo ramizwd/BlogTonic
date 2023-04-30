@@ -33,7 +33,7 @@ const MainNavigation = () => {
   };
   const profilePage = () => {
     setAnchorEl(null);
-    navigate('/profile');
+    navigate(`/profile/${user.user.id}`);
   };
 
   return (

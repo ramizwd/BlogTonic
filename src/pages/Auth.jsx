@@ -84,6 +84,7 @@ export const AuthPage = () => {
                 values={registerForm.values}
                 handleChange={registerForm.handleChange}
                 handleSubmit={registerForm.handleSubmit}
+                ButtonText={'Register'}
               />
             )}
             <Box mt={2} textAlign="center">

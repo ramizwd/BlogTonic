@@ -1,3 +1,15 @@
+// User Queries
+export const GET_USER_BY_ID = `
+query UsersById($userByIdId: ID!) {
+    userById(id: $userByIdId) {
+      id
+      email
+      username
+    }
+  }
+`;
+
+// Post Queries
 export const GET_POSTS = `
 query Posts {
     posts {

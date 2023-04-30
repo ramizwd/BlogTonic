@@ -31,7 +31,7 @@ export const EditPostPage = () => {
       const updatedPost = await fetchGql(GRAPHQL_API, UPDATE_POST, updateData, user.token);
 
       if (updatedPost) {
-        toast.success('Blog updated!');
+        toast.success('Blog Updated!');
         navigate(`/post/${postId}`, { replace: true });
         updateForm.reset();
       }

@@ -56,7 +56,7 @@ export const HomePage = () => {
       ) : (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', wordWrap: 'break-word' }}>
           {posts.map((post) => (
-            <Box key={post.id} sx={{ marginBottom: '1rem' }}>
+            <Box key={post.id} sx={{ my: 1 }}>
               <Post post={post} />
             </Box>
           ))}

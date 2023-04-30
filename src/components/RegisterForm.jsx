@@ -1,11 +1,13 @@
 import { TextField, Button, Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-export const RegisterForm = ({ values, handleChange, handleSubmit }) => {
+export const RegisterForm = ({ values, handleChange, handleSubmit, ButtonText }) => {
   return (
     <form onSubmit={handleSubmit}>
-      <Typography> Username can only contain alphanumeric characters and between 3 and 20 characters long </Typography>
-      <Typography> Password must be at least 6 characters long </Typography>
+      <Typography gutterBottom>
+        Username can only contain alphanumeric characters and between 3 and 20 characters long{' '}
+      </Typography>
+      <Typography gutterBottom> Password must be at least 6 characters long </Typography>
       <Box>
         <Stack spacing={2}>
           <TextField name="email" label="Email" type="email" required value={values.email} onChange={handleChange} />
@@ -19,7 +21,7 @@ export const RegisterForm = ({ values, handleChange, handleSubmit }) => {
             required
           />
           <Button variant="contained" type="submit">
-            Register
+            {ButtonText}
           </Button>
         </Stack>
       </Box>

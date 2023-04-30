@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Box, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
 import { Post } from '../components/Post';
 import { GET_POSTS_BY_AUTHOR_ID } from '../graphql/queries';
 import { useAuth } from '../hooks/useAuth';
 import { GRAPHQL_API } from '../utils/constants';
 import { fetchGql } from '../graphql/fetch';
 import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const ProfilePage = () => {
   const [posts, setPosts] = useState(null);
 
   const { user } = useAuth();
+
+  const navigate = useNavigate();
 
   const getAuthorPosts = async () => {
     const userData = {
@@ -24,6 +27,10 @@ export const ProfilePage = () => {
       toast.error('Fetching posts failed!');
       console.error('Error: ', error);
     }
+  };
+
+  const editProfilePage = () => {
+    navigate(`/edit-profile/${user.user.id}`);
   };
 
   useEffect(() => {
@@ -43,12 +50,17 @@ export const ProfilePage = () => {
         paddingBottom: '2rem',
       }}
     >
-      <Typography sx={{ paddingBottom: '2rem' }} variant="h5">
-        My Posts
-      </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', my: 4 }}>
+        <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
+          My Posts
+        </Typography>
+        <Button variant="outlined" onClick={editProfilePage}>
+          Edit Profile
+        </Button>
+      </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', wordWrap: 'break-word' }}>
         {posts.map((post) => (
-          <Box key={post.id} sx={{ marginBottom: '1rem' }}>
+          <Box key={post.id} sx={{ my: 1 }}>
             <Post post={post} />
           </Box>
         ))}
