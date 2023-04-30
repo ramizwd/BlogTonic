@@ -11,6 +11,7 @@ import { CreatePost } from './pages/CreatePost';
 import { Toaster } from 'react-hot-toast';
 import { PostDetailPage } from './pages/PostDetail';
 import { EditPostPage } from './pages/EditPost';
+import { ProfilePage } from './pages/Profile';
 
 const App = () => {
   const location = useLocation();
@@ -55,6 +56,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <EditPostPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

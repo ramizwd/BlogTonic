@@ -29,8 +29,11 @@ const MainNavigation = () => {
 
   const createBlogPage = () => {
     setAnchorEl(null);
-
     navigate('/create-post');
+  };
+  const profilePage = () => {
+    setAnchorEl(null);
+    navigate('/profile');
   };
 
   return (
@@ -74,6 +77,7 @@ const MainNavigation = () => {
             onClose={handleClose}
           >
             <MenuItem onClick={createBlogPage}>New Post</MenuItem>
+            <MenuItem onClick={profilePage}>User Profile</MenuItem>
             <MenuItem onClick={logout}>Logout</MenuItem>
           </Menu>
         </div>
