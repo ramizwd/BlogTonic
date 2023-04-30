@@ -31,3 +31,20 @@ query PostById($postByIdId: ID!) {
     }
   }
 `;
+
+export const GET_POSTS_BY_AUTHOR_ID = `
+query PostsByAuthorId($authorId: ID!) {
+    postsByAuthorId(authorId: $authorId) {
+      author {
+        id
+        email
+        username
+      }
+      id
+      title
+      content
+      createdAt
+      updatedAt
+    }
+  }
+`;

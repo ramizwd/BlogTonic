@@ -75,6 +75,7 @@ export const PostDetailPage = () => {
         paddingTop: '4rem',
         textAlign: 'left',
         wordWrap: 'break-word',
+        width: '800px',
       }}
     >
       <Typography variant="h4">{post.title}</Typography>
