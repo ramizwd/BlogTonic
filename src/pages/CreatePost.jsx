@@ -22,7 +22,7 @@ export const CreatePost = () => {
       const post = await fetchGql(GRAPHQL_API, CREATE_POST, postData, user.token);
 
       if (post) {
-        toast.success('Blog published!');
+        toast.success('Blog Published!');
         navigate('/home', { replace: true });
       }
     } catch (error) {

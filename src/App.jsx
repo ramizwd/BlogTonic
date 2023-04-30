@@ -12,6 +12,7 @@ import { Toaster } from 'react-hot-toast';
 import { PostDetailPage } from './pages/PostDetail';
 import { EditPostPage } from './pages/EditPost';
 import { ProfilePage } from './pages/Profile';
+import { EditProfilePage } from './pages/EditProfile';
 
 const App = () => {
   const location = useLocation();
@@ -60,10 +61,18 @@ const App = () => {
             }
           />
           <Route
-            path="/profile"
+            path="/profile/:userId"
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-profile/:userId"
+            element={
+              <ProtectedRoute>
+                <EditProfilePage />
               </ProtectedRoute>
             }
           />
