@@ -41,7 +41,7 @@ export const AuthPage = () => {
       const user = await fetchGql(GRAPHQL_API, LOGIN_USER, userData);
 
       if (user) {
-        toast.success('User logged in successfully!');
+        toast.success(user.login.message);
         sessionStorage.setItem('user', JSON.stringify(user.login));
         auth.login(user.login);
         navigate('/', { replace: true });
