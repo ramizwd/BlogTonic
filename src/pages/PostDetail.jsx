@@ -66,49 +66,50 @@ export const PostDetailPage = () => {
   }
 
   return (
-    <Container maxWidth="md" sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Box sx={{ paddingTop: '4rem' }}>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h4" align="center" sx={{ textAlign: 'left' }}>
-            {post.title}
-          </Typography>
-          {user && user.user.id === post.author.id && (
-            <>
-              <IconButton onClick={handleMenuOpen}>
-                <MoreVertIcon />
-              </IconButton>
-              <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                <MenuItem
-                  onClick={() => {
-                    handleMenuClose();
-                    navigate(`/edit-post/${postId}`);
-                  }}
-                >
-                  Edit
-                </MenuItem>
-                <MenuItem onClick={() => deletePost(postId)}>Delete</MenuItem>
-              </Menu>
-            </>
-          )}
-        </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'baseline',
-            color: 'text.secondary',
-            paddingRight: '1rem',
-          }}
-        >
-          <Typography gutterBottom variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            by {post.author.username}
-          </Typography>
-          <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
-        </Box>
+    <Container
+      maxWidth="md"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+        paddingTop: '4rem',
+        textAlign: 'left',
+        wordWrap: 'break-word',
+      }}
+    >
+      <Typography variant="h4">{post.title}</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          color: 'text.secondary',
+        }}
+      >
+        <Typography gutterBottom variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+          by {post.author.username}
+        </Typography>
+        <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
+        {user && user.user.id === post.author.id && (
+          <>
+            <IconButton onClick={handleMenuOpen}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
+              <MenuItem
+                onClick={() => {
+                  handleMenuClose();
+                  navigate(`/edit-post/${postId}`);
+                }}
+              >
+                Edit
+              </MenuItem>
+              <MenuItem onClick={() => deletePost(postId)}>Delete</MenuItem>
+            </Menu>
+          </>
+        )}
       </Box>
-      <Box sx={{ width: '50rem', textAlign: 'left' }}>
-        <Typography variant="body1">{post.content}</Typography>
-      </Box>
+      <Typography variant="body1">{post.content}</Typography>
     </Container>
   );
 };

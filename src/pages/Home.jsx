@@ -54,18 +54,17 @@ export const HomePage = () => {
           </Button>
         </Box>
       ) : (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', wordWrap: 'break-word' }}>
           {posts.map((post) => (
-            <Box key={post.id} sx={{ paddingBottom: '1rem' }}>
-              <Link to={`/post/${post.id}`} style={{ textDecoration: 'none' }}>
+            <Box key={post.id} sx={{ marginBottom: '1rem' }}>
+              <Link to={`/post/${post.id}`}>
                 <Card
                   sx={{
-                    width: '100%',
+                    width: '40rem',
                     height: 'fit-content',
-                    maxHeight: '10rem',
+                    maxHeight: '12rem',
                     border: '1px solid #ddd',
                     boxShadow: 'none',
-                    minWidth: '40rem',
                     '&:hover': {
                       boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.2)',
                     },
@@ -73,17 +72,17 @@ export const HomePage = () => {
                   }}
                 >
                   <CardContent>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <Typography variant="subtitle2" sx={{ textAlign: 'left', fontWeight: 'bold' }}>
-                        by {post.author.username}
-                      </Typography>
-                      <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
-                    </Box>
-                    <Typography variant="h5" sx={{ marginTop: '.5rem', textAlign: 'left' }}>
+                    <Typography variant="h5" sx={{ textAlign: 'left' }}>
                       {truncateText(post.title, MAX_TITLE_LENGTH)}
                     </Typography>
-                    <Typography variant="body1" sx={{ marginTop: '.5rem', textAlign: 'left', color: '#888' }}>
+                    <Typography variant="subtitle2" sx={{ textAlign: 'left', fontWeight: 'bold' }}>
+                      by {post.author.username}
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'left' }}>
                       {truncateText(post.content, MAX_CONTENT_LENGTH)}
+                    </Typography>
+                    <Typography variant="subtitle2" sx={{ textAlign: 'right', marginTop: '1rem' }}>
+                      {new Date(post.createdAt).toLocaleDateString()}
                     </Typography>
                   </CardContent>
                 </Card>
