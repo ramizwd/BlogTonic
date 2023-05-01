@@ -54,6 +54,7 @@ mutation CreatePost($title: String!, $content: String!) {
       content
       createdAt
       updatedAt
+      likes
     }
   }
 `;
@@ -71,6 +72,7 @@ mutation UpdatePost($updatePost: UpdatePostInput!) {
       content
       createdAt
       updatedAt
+      likes
     }
   }
 `;
@@ -79,6 +81,42 @@ export const DELETE_POST = `
 mutation DeletePost($deletePostId: ID!) {
     deletePost(id: $deletePostId) {
       id
+    }
+  }
+`;
+
+export const LIKE_POST = `
+mutation LikePost($postId: ID!) {
+    likePost(postId: $postId) {
+      author {
+        email
+        id
+        username
+      }
+      content
+      createdAt
+      id
+      title
+      updatedAt
+      likes
+    }
+  }
+`;
+
+export const UNLIKE_POST = `
+mutation UnlikePost($postId: ID!) {
+    unlikePost(postId: $postId) {
+      author {
+        id
+        email
+        username
+      }
+      id
+      title
+      content
+      createdAt
+      updatedAt
+      likes
     }
   }
 `;
