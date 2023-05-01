@@ -10,7 +10,7 @@ import { Post } from '../components/Post';
 export const HomePage = () => {
   const [posts, setPosts] = useState(null);
 
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   const getPosts = async () => {
     try {
@@ -31,7 +31,7 @@ export const HomePage = () => {
   }
 
   const createBlogPage = () => {
-    navigator('/create-post');
+    navigate('/create-post');
   };
 
   return (
@@ -41,7 +41,6 @@ export const HomePage = () => {
         alignItems: 'center',
         justifyContent: 'center',
         paddingTop: '5rem',
-        paddingBottom: '2rem',
       }}
     >
       {posts.length === 0 ? (

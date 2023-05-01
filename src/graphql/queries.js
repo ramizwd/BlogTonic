@@ -23,6 +23,7 @@ query Posts {
       }
       createdAt
       updatedAt
+      likes
     }
   }
 `;
@@ -40,6 +41,7 @@ query PostById($postByIdId: ID!) {
       content
       createdAt
       updatedAt
+      likes
     }
   }
 `;
@@ -57,6 +59,25 @@ query PostsByAuthorId($authorId: ID!) {
       content
       createdAt
       updatedAt
+      likes
     }
   }
 `;
+
+export const GET_LIKED_POSTS_BY_USER_ID = `
+query PostsLikedByUserId($userId: ID!) {
+    postsLikedByUserId(userId: $userId) {
+      author {
+        email
+        id
+        username
+      }
+      id
+      title
+      content
+      createdAt
+      updatedAt
+      likes
+    }
+  }
+  `;

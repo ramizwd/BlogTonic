@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Container, Typography, Menu, MenuItem, IconButton, CircularProgress } from '@mui/material';
+import { Box, Container, Typography, Menu, MenuItem, IconButton, CircularProgress, Button } from '@mui/material';
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
 import { GET_POST_BY_ID } from '../graphql/queries';
-import { DELETE_POST } from '../graphql/mutations';
+import { DELETE_POST, LIKE_POST, UNLIKE_POST } from '../graphql/mutations';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
@@ -11,6 +11,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export const PostDetailPage = () => {
   const [post, setPost] = useState(null);
+  const [likes, setLikes] = useState([]);
+  const [liked, setLiked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const { postId } = useParams();
@@ -32,6 +34,8 @@ export const PostDetailPage = () => {
         postByIdId: id,
       });
       setPost(post.postById);
+      setLikes(post.postById.likes);
+      setLiked(post.postById.likes.some((like) => like === user.user.id));
     } catch (error) {
       toast.error('Fetching post failed!');
       console.error('Error: ', error);
@@ -57,6 +61,36 @@ export const PostDetailPage = () => {
     }
   };
 
+  const likePost = async () => {
+    const likeData = {
+      postId: postId,
+    };
+
+    try {
+      const res = await fetchGql(GRAPHQL_API, LIKE_POST, likeData, user.token);
+      setLikes(res.likePost.likes);
+      toast.success('Blog Liked!');
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.error('Error: ', error);
+    }
+  };
+
+  const unlikePost = async () => {
+    const unlikeData = {
+      postId: postId,
+    };
+
+    try {
+      const res = await fetchGql(GRAPHQL_API, UNLIKE_POST, unlikeData, user.token);
+      setLikes(res.unlikePost.likes);
+      toast.success('Blog Unliked!');
+    } catch (error) {
+      toast.error('Something went wrong!');
+      console.error('Error: ', error);
+    }
+  };
+
   useEffect(() => {
     getPost(postId);
   }, [postId]);
@@ -67,7 +101,6 @@ export const PostDetailPage = () => {
 
   return (
     <Container
-      maxWidth="md"
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -87,10 +120,19 @@ export const PostDetailPage = () => {
           color: 'text.secondary',
         }}
       >
-        <Typography gutterBottom variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-          by {post.author.username}
-        </Typography>
-        <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'baseline',
+          }}
+        >
+          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', my: 2 }}>
+            by {post.author.username}
+          </Typography>
+          <Typography sx={{ paddingLeft: '1rem' }} variant="subtitle2">
+            {new Date(post.createdAt).toLocaleDateString()}
+          </Typography>
+        </Box>
         {user && user.user.id === post.author.id && (
           <>
             <IconButton onClick={handleMenuOpen}>
@@ -110,7 +152,19 @@ export const PostDetailPage = () => {
           </>
         )}
       </Box>
-      <Typography variant="body1">{post.content}</Typography>
+      <Typography sx={{ my: 2 }} variant="body1">
+        {post.content}
+      </Typography>
+      <Button
+        variant="outlined"
+        sx={{ color: liked ? 'green' : '', outline: 'none !important', borderColor: liked ? 'green !important' : '' }}
+        onClick={() => {
+          liked ? unlikePost() : likePost();
+          setLiked(!liked);
+        }}
+      >
+        {likes.length} {likes.length < 2 ? 'Like' : 'Likes'}
+      </Button>
     </Container>
   );
 };

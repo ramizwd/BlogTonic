@@ -30,9 +30,15 @@ export const Post = ({ post }) => {
           <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'left' }}>
             {truncateText(post.content, MAX_CONTENT_LENGTH)}
           </Typography>
-          <Typography variant="subtitle2" sx={{ textAlign: 'right', marginTop: '1rem' }}>
-            {new Date(post.createdAt).toLocaleDateString()}
-          </Typography>
+          <Box
+            variant="subtitle2"
+            sx={{ display: 'flex', justifyContent: 'space-between', textAlign: 'right', marginTop: '1rem' }}
+          >
+            <Typography variant="subtitle2">
+              {post.likes.length} {post.likes.length < 2 ? 'Like' : 'Likes'}
+            </Typography>
+            <Typography variant="subtitle2">{new Date(post.createdAt).toLocaleDateString()}</Typography>
+          </Box>
         </CardContent>
       </Card>
     </Link>
