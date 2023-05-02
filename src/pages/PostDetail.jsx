@@ -100,6 +100,9 @@ export const PostDetailPage = () => {
     return <CircularProgress color="inherit" />;
   }
 
+  const createdAt = new Date(post.createdAt).toLocaleString();
+  const updatedAt = new Date(post.updatedAt).toLocaleString();
+
   return (
     <Container
       sx={{
@@ -131,8 +134,14 @@ export const PostDetailPage = () => {
             by {post.author.username}
           </Typography>
           <Typography sx={{ paddingLeft: '1rem' }} variant="subtitle2">
-            {new Date(post.createdAt).toLocaleDateString()}
+            created {createdAt}
           </Typography>
+
+          {createdAt !== updatedAt && (
+            <Typography sx={{ paddingLeft: '1rem' }} variant="subtitle2">
+              edited {updatedAt}
+            </Typography>
+          )}
         </Box>
         {user && user.user.id === post.author.id && (
           <>
