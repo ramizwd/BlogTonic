@@ -33,6 +33,7 @@ export const PostDetailPage = () => {
       const post = await fetchGql(GRAPHQL_API, GET_POST_BY_ID, {
         postByIdId: id,
       });
+
       setPost(post.postById);
       setLikes(post.postById.likes);
       setLiked(post.postById.likes.some((like) => like === user.user.id));
@@ -69,7 +70,7 @@ export const PostDetailPage = () => {
     try {
       const res = await fetchGql(GRAPHQL_API, LIKE_POST, likeData, user.token);
       setLikes(res.likePost.likes);
-      toast.success('Blog Liked!');
+      toast.success('Blog Added to Likes!');
     } catch (error) {
       toast.error('Something went wrong!');
       console.error('Error: ', error);
@@ -84,7 +85,7 @@ export const PostDetailPage = () => {
     try {
       const res = await fetchGql(GRAPHQL_API, UNLIKE_POST, unlikeData, user.token);
       setLikes(res.unlikePost.likes);
-      toast.success('Blog Unliked!');
+      toast.success('Blog Removed from Likes!');
     } catch (error) {
       toast.error('Something went wrong!');
       console.error('Error: ', error);
