@@ -1,7 +1,7 @@
 import { TextField, Button, Box, Stack, Typography } from '@mui/material';
 import React from 'react';
 
-export const RegisterForm = ({ values, handleChange, handleSubmit, ButtonText }) => {
+export const RegisterForm = ({ values, handleChange, handleSubmit, ButtonText, required = true }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Typography gutterBottom>
@@ -18,7 +18,7 @@ export const RegisterForm = ({ values, handleChange, handleSubmit, ButtonText })
             type="password"
             value={values.password}
             onChange={handleChange}
-            required
+            required={required}
           />
           <Button variant="contained" type="submit">
             {ButtonText}

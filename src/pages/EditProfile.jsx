@@ -8,7 +8,7 @@ import { fetchGql } from '../graphql/fetch';
 import { useForm } from '../hooks/useForm';
 import { CircularProgress, Container } from '@mui/material';
 import { useAuth } from '../hooks/useAuth';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const EditProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +50,6 @@ export const EditProfilePage = () => {
         editForm.setValues({
           email: fetchedUser.userById.email,
           username: fetchedUser.userById.username,
-          password: '',
         });
         setIsLoading(false);
       }
@@ -71,6 +70,7 @@ export const EditProfilePage = () => {
   return (
     <Container maxWidth="sm">
       <RegisterForm
+        required={false}
         values={editForm.values}
         handleChange={editForm.handleChange}
         handleSubmit={editForm.handleSubmit}
