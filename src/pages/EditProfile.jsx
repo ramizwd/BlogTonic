@@ -24,12 +24,11 @@ export const EditProfilePage = () => {
         password: values.password,
       },
     };
-    console.log('DATA SENT', updateData);
+
     try {
       const updatedUser = await fetchGql(GRAPHQL_API, UPDATE_USER, updateData, user.token);
 
       if (updatedUser) {
-        console.log('UPDATED USER', updatedUser);
         toast.success(updatedUser.updateUser.message);
         logout();
       }
