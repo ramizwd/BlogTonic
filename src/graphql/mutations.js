@@ -77,6 +77,24 @@ mutation UpdatePost($updatePost: UpdatePostInput!) {
   }
 `;
 
+export const ADMIN_UPDATE_POST = `
+mutation UpdatePostAsAdmin($updatePostAsAdmin: UpdatePostInput!) {
+    updatePostAsAdmin(updatePostAsAdmin: $updatePostAsAdmin) {
+      author {
+        email
+        id
+        username
+      }
+      id
+      title
+      content
+      likes
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const DELETE_POST = `
 mutation DeletePost($deletePostId: ID!) {
     deletePost(id: $deletePostId) {
