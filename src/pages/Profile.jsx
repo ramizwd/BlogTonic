@@ -7,6 +7,7 @@ import { GRAPHQL_API } from '../utils/constants';
 import { fetchGql } from '../graphql/fetch';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import jwtDecode from 'jwt-decode';
 
 export const ProfilePage = () => {
   const [posts, setPosts] = useState(null);
@@ -16,6 +17,8 @@ export const ProfilePage = () => {
   const { user } = useAuth();
 
   const navigate = useNavigate();
+  const decodedPayload = jwtDecode(user.token);
+  const isAdmin = decodedPayload.isAdmin;
 
   const getAuthorPosts = async () => {
     const userData = {
@@ -31,7 +34,6 @@ export const ProfilePage = () => {
     }
   };
 
-  //  get all posts and filter user's liked posts
   const getPosts = async () => {
     const userData = {
       userId: user.user.id,
@@ -76,9 +78,16 @@ export const ProfilePage = () => {
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
-          {user.user.username}
-        </Typography>
+        <Box x={{ justifyContent: 'column' }}>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
+            {user.user.username}
+          </Typography>
+          {isAdmin && (
+            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+              ADMINISTRATOR
+            </Typography>
+          )}
+        </Box>
         <Button variant="outlined" onClick={editProfilePage}>
           Edit Profile
         </Button>
