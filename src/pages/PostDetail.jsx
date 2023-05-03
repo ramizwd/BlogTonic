@@ -3,11 +3,12 @@ import { Box, Container, Typography, Menu, MenuItem, IconButton, CircularProgres
 import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
 import { GET_POST_BY_ID } from '../graphql/queries';
-import { DELETE_POST, LIKE_POST, UNLIKE_POST } from '../graphql/mutations';
+import { DELETE_POST, DELETE_POST_AS_ADMIN, LIKE_POST, UNLIKE_POST } from '../graphql/mutations';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import jwtDecode from 'jwt-decode';
 
 export const PostDetailPage = () => {
   const [post, setPost] = useState(null);
@@ -19,6 +20,8 @@ export const PostDetailPage = () => {
   const { user } = useAuth();
 
   const navigate = useNavigate();
+  const decodedPayload = jwtDecode(user.token);
+  const isAdmin = decodedPayload.isAdmin;
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,15 +48,17 @@ export const PostDetailPage = () => {
 
   const deletePost = async (id) => {
     try {
-      const deleteData = {
-        deletePostId: id,
-      };
+      let res = null;
 
-      const res = await fetchGql(GRAPHQL_API, DELETE_POST, deleteData, user.token);
+      if (!isAdmin) {
+        res = await fetchGql(GRAPHQL_API, DELETE_POST, { deletePostId: id }, user.token);
+      } else {
+        res = await fetchGql(GRAPHQL_API, DELETE_POST_AS_ADMIN, { deletePostAsAdminId: id }, user.token);
+      }
 
       if (res) {
         handleMenuClose();
-        toast.success(`Blog deleted with ID ${res.deletePost.id}`);
+        toast.success(`Blog Deleted`);
         navigate(`/`, { replace: true });
       }
     } catch (error) {
@@ -143,7 +148,7 @@ export const PostDetailPage = () => {
             </Typography>
           )}
         </Box>
-        {user && user.user.id === post.author.id && (
+        {user && (user.user.id === post.author.id || isAdmin) && (
           <>
             <IconButton onClick={handleMenuOpen}>
               <MoreVertIcon />

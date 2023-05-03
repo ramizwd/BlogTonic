@@ -85,6 +85,14 @@ mutation DeletePost($deletePostId: ID!) {
   }
 `;
 
+export const DELETE_POST_AS_ADMIN = `
+mutation DeletePostAsAdmin($deletePostAsAdminId: ID!) {
+    deletePostAsAdmin(id: $deletePostAsAdminId) {
+      id
+    }
+  }
+`;
+
 export const LIKE_POST = `
 mutation LikePost($postId: ID!) {
     likePost(postId: $postId) {
