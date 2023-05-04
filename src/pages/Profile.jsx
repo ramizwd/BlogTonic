@@ -7,7 +7,7 @@ import { GRAPHQL_API } from '../utils/constants';
 import { fetchGql } from '../graphql/fetch';
 import { toast } from 'react-hot-toast';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DELETE_USER } from '../graphql/mutations';
+import { ADMIN_DELETE_USER, DELETE_USER } from '../graphql/mutations';
 import jwtDecode from 'jwt-decode';
 
 export const ProfilePage = () => {
@@ -72,11 +72,16 @@ export const ProfilePage = () => {
 
   const deleteProfile = async () => {
     try {
-      const res = await fetchGql(GRAPHQL_API, DELETE_USER, null, user.token);
+      let res = null;
+      console.log(userProfile.id);
+
+      user.user.id === userProfile.id
+        ? (res = await fetchGql(GRAPHQL_API, DELETE_USER, null, user.token))
+        : (res = await fetchGql(GRAPHQL_API, ADMIN_DELETE_USER, { deleteUserAsAdminId: userProfile.id }, user.token));
 
       if (res) {
         toast.success('User Profile Deleted!');
-        logout();
+        if (user.user.id === userProfile.id) logout();
         navigate('/auth', { replace: true });
       }
     } catch (error) {
@@ -128,22 +133,24 @@ export const ProfilePage = () => {
             </Typography>
           )}
         </Box>
-        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-          <Button sx={{ marginBottom: '.5rem' }} variant="outlined" onClick={editProfilePage}>
-            Edit Profile
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{
-              color: '#fc2c03',
-              outline: 'none !important',
-              borderColor: '#fc2c03 !important',
-            }}
-            onClick={deleteProfile}
-          >
-            Delete Profile
-          </Button>
-        </Box>
+        {(isAdmin || user.user.id === userProfile.id) && (
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Button sx={{ marginBottom: '.5rem' }} variant="outlined" onClick={editProfilePage}>
+              Edit Profile
+            </Button>
+            <Button
+              variant="outlined"
+              sx={{
+                color: '#fc2c03',
+                outline: 'none !important',
+                borderColor: '#fc2c03 !important',
+              }}
+              onClick={deleteProfile}
+            >
+              Delete Profile
+            </Button>
+          </Box>
+        )}
       </Box>
       <Box>
         <Tabs value={selectedTab} onChange={handleTabChange} centered>
