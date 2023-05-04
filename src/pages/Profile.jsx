@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material';
 import { Post } from '../components/Post';
-import { GET_LIKED_POSTS_BY_USER_ID, GET_POSTS, GET_POSTS_BY_AUTHOR_ID } from '../graphql/queries';
+import { GET_LIKED_POSTS_BY_USER_ID, GET_POSTS_BY_AUTHOR_ID } from '../graphql/queries';
 import { useAuth } from '../hooks/useAuth';
 import { GRAPHQL_API } from '../utils/constants';
 import { fetchGql } from '../graphql/fetch';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { DELETE_USER } from '../graphql/mutations';
 import jwtDecode from 'jwt-decode';
 
 export const ProfilePage = () => {
@@ -14,7 +15,7 @@ export const ProfilePage = () => {
   const [likedPosts, setLikedPosts] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const navigate = useNavigate();
   const decodedPayload = jwtDecode(user.token);
@@ -34,7 +35,7 @@ export const ProfilePage = () => {
     }
   };
 
-  const getPosts = async () => {
+  const getLikedPosts = async () => {
     const userData = {
       userId: user.user.id,
     };
@@ -52,6 +53,20 @@ export const ProfilePage = () => {
     navigate(`/edit-profile/${user.user.id}`);
   };
 
+  const deleteProfile = async () => {
+    try {
+      const res = await fetchGql(GRAPHQL_API, DELETE_USER, null, user.token);
+
+      if (res) {
+        toast.success('User Profile Deleted!');
+        logout();
+        navigate('/auth', { replace: true });
+      }
+    } catch (error) {
+      toast.error('Deleting Profile Failed!');
+    }
+  };
+
   const createBlogPage = () => {
     navigate('/create-post');
   };
@@ -62,7 +77,7 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     getAuthorPosts();
-    getPosts();
+    getLikedPosts();
   }, []);
 
   if (posts === null) {
@@ -79,18 +94,40 @@ export const ProfilePage = () => {
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box x={{ justifyContent: 'column' }}>
-          <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
             {user.user.username}
           </Typography>
           {isAdmin && (
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+            <Typography
+              variant="subtitle1"
+              sx={{
+                color: 'text.secondary',
+                backgroundColor: 'lightgray',
+                borderRadius: 1,
+                padding: '0.2rem',
+                fontSize: '.8rem',
+              }}
+            >
               ADMINISTRATOR
             </Typography>
           )}
         </Box>
-        <Button variant="outlined" onClick={editProfilePage}>
-          Edit Profile
-        </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Button sx={{ marginBottom: '.5rem' }} variant="outlined" onClick={editProfilePage}>
+            Edit Profile
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{
+              color: '#fc2c03',
+              outline: 'none !important',
+              borderColor: '#fc2c03 !important',
+            }}
+            onClick={deleteProfile}
+          >
+            Delete Profile
+          </Button>
+        </Box>
       </Box>
       <Box>
         <Tabs value={selectedTab} onChange={handleTabChange} centered>

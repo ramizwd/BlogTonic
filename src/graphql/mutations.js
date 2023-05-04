@@ -40,6 +40,19 @@ mutation UpdateUser($user: UserModify!) {
   }
 `;
 
+export const DELETE_USER = `
+mutation DeleteUser {
+    deleteUser {
+      message
+      user {
+        email
+        id
+        username
+      }
+    }
+  }
+`;
+
 // Post Mutations
 export const CREATE_POST = `
 mutation CreatePost($title: String!, $content: String!) {
