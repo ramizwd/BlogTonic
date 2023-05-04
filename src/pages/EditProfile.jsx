@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RegisterForm } from '../components/RegisterForm';
-import { UPDATE_USER } from '../graphql/mutations';
+import { ADMIN_UPDATE_USER, UPDATE_USER } from '../graphql/mutations';
 import { toast } from 'react-hot-toast';
 import { GRAPHQL_API } from '../utils/constants';
 import { GET_USER_BY_ID } from '../graphql/queries';
@@ -26,11 +26,20 @@ export const EditProfilePage = () => {
     };
 
     try {
-      const updatedUser = await fetchGql(GRAPHQL_API, UPDATE_USER, updateData, user.token);
+      let updatedUser = null;
+
+      user.user.id === userId
+        ? (updatedUser = await fetchGql(GRAPHQL_API, UPDATE_USER, updateData, user.token))
+        : (updatedUser = await fetchGql(
+            GRAPHQL_API,
+            ADMIN_UPDATE_USER,
+            { updateUserAsAdminId: userId, ...updateData },
+            user.token
+          ));
 
       if (updatedUser) {
-        toast.success(updatedUser.updateUser.message);
-        logout();
+        toast.success(user.user.id === userId ? updatedUser.updateUser.message : updatedUser.updateUserAsAdmin.message);
+        if (user.user.id === userId) logout();
       }
     } catch (error) {
       toast.error('Something went wrong!');

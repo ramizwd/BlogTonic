@@ -73,7 +73,6 @@ export const ProfilePage = () => {
   const deleteProfile = async () => {
     try {
       let res = null;
-      console.log(userProfile.id);
 
       user.user.id === userProfile.id
         ? (res = await fetchGql(GRAPHQL_API, DELETE_USER, null, user.token))
