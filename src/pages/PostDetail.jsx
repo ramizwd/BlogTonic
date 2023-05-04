@@ -172,7 +172,11 @@ export const PostDetailPage = () => {
       </Typography>
       <Button
         variant="outlined"
-        sx={{ color: liked ? 'green' : '', outline: 'none !important', borderColor: liked ? 'green !important' : '' }}
+        sx={{
+          color: liked ? '#30fc03' : '',
+          outline: 'none !important',
+          borderColor: liked ? '#30fc03 !important' : '',
+        }}
         onClick={() => {
           liked ? unlikePost() : likePost();
           setLiked(!liked);
