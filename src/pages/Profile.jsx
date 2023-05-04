@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Button, CircularProgress, Container, Tab, Tabs, Typography } from '@mui/material';
 import { Post } from '../components/Post';
-import { GET_LIKED_POSTS_BY_USER_ID, GET_POSTS_BY_AUTHOR_ID } from '../graphql/queries';
+import { GET_LIKED_POSTS_BY_USER_ID, GET_POSTS_BY_AUTHOR_ID, GET_USER_BY_ID } from '../graphql/queries';
 import { useAuth } from '../hooks/useAuth';
 import { GRAPHQL_API } from '../utils/constants';
 import { fetchGql } from '../graphql/fetch';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { DELETE_USER } from '../graphql/mutations';
 import jwtDecode from 'jwt-decode';
 
@@ -14,16 +14,33 @@ export const ProfilePage = () => {
   const [posts, setPosts] = useState(null);
   const [likedPosts, setLikedPosts] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [userProfile, setUserProfile] = useState(null);
 
+  const { userId } = useParams();
   const { user, logout } = useAuth();
 
   const navigate = useNavigate();
   const decodedPayload = jwtDecode(user.token);
   const isAdmin = decodedPayload.isAdmin;
 
-  const getAuthorPosts = async () => {
+  const getUser = async () => {
+    try {
+      const userData = await fetchGql(GRAPHQL_API, GET_USER_BY_ID, { userByIdId: userId });
+
+      if (userData) {
+        setUserProfile(userData.userById);
+        getAuthorPosts(userData.userById.id);
+        getLikedPosts(userData.userById.id);
+      }
+    } catch (error) {
+      toast.error('Fetching user failed!');
+      console.error('Error: ', error);
+    }
+  };
+
+  const getAuthorPosts = async (id) => {
     const userData = {
-      authorId: user.user.id,
+      authorId: id,
     };
 
     try {
@@ -35,9 +52,9 @@ export const ProfilePage = () => {
     }
   };
 
-  const getLikedPosts = async () => {
+  const getLikedPosts = async (id) => {
     const userData = {
-      userId: user.user.id,
+      userId: id,
     };
 
     try {
@@ -50,7 +67,7 @@ export const ProfilePage = () => {
   };
 
   const editProfilePage = () => {
-    navigate(`/edit-profile/${user.user.id}`);
+    navigate(`/edit-profile/${userProfile.id}`);
   };
 
   const deleteProfile = async () => {
@@ -76,11 +93,10 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
-    getAuthorPosts();
-    getLikedPosts();
+    getUser();
   }, []);
 
-  if (posts === null) {
+  if (posts === null || likedPosts === null || userProfile === null) {
     return <CircularProgress color="inherit" />;
   }
 
@@ -95,9 +111,9 @@ export const ProfilePage = () => {
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box x={{ justifyContent: 'column' }}>
           <Typography variant="h4" component="h1" sx={{ fontWeight: 'bold', textAlign: 'left' }}>
-            {user.user.username}
+            {userProfile.username}
           </Typography>
-          {isAdmin && (
+          {isAdmin && user.user.id === userProfile.id && (
             <Typography
               variant="subtitle1"
               sx={{
@@ -108,7 +124,7 @@ export const ProfilePage = () => {
                 fontSize: '.8rem',
               }}
             >
-              ADMINISTRATOR
+              YOU ARE AN ADMINISTRATOR
             </Typography>
           )}
         </Box>

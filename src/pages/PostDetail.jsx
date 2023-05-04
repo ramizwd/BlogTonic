@@ -4,7 +4,7 @@ import { fetchGql } from '../graphql/fetch';
 import { GRAPHQL_API } from '../utils/constants';
 import { GET_POST_BY_ID } from '../graphql/queries';
 import { DELETE_POST, DELETE_POST_AS_ADMIN, LIKE_POST, UNLIKE_POST } from '../graphql/mutations';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../hooks/useAuth';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -135,9 +135,11 @@ export const PostDetailPage = () => {
             alignItems: 'baseline',
           }}
         >
-          <Typography variant="subtitle2" sx={{ fontWeight: 'bold', my: 2 }}>
-            by {post.author.username}
-          </Typography>
+          <Link to={`/profile/${post.author.id}`}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', my: 2 }}>
+              by {post.author.username}
+            </Typography>
+          </Link>
           <Typography sx={{ paddingLeft: '1rem' }} variant="subtitle2">
             created {createdAt}
           </Typography>
@@ -173,9 +175,9 @@ export const PostDetailPage = () => {
       <Button
         variant="outlined"
         sx={{
-          color: liked ? '#30fc03' : '',
+          color: liked ? '#2fb54e' : '',
           outline: 'none !important',
-          borderColor: liked ? '#30fc03 !important' : '',
+          borderColor: liked ? '#2fb54e !important' : '',
         }}
         onClick={() => {
           liked ? unlikePost() : likePost();
