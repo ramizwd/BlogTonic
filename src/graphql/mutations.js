@@ -40,6 +40,19 @@ mutation UpdateUser($user: UserModify!) {
   }
 `;
 
+export const ADMIN_UPDATE_USER = `
+mutation UpdateUserAsAdmin($updateUserAsAdminId: ID!, $user: UserModify!) {
+    updateUserAsAdmin(id: $updateUserAsAdminId, user: $user) {
+      user {
+        id
+        email
+        username
+      }
+      message
+    }
+  }
+`;
+
 export const DELETE_USER = `
 mutation DeleteUser {
     deleteUser {
