@@ -53,6 +53,16 @@ mutation DeleteUser {
   }
 `;
 
+export const ADMIN_DELETE_USER = `
+mutation DeleteUserAsAdmin($deleteUserAsAdminId: ID!) {
+    deleteUserAsAdmin(id: $deleteUserAsAdminId) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 // Post Mutations
 export const CREATE_POST = `
 mutation CreatePost($title: String!, $content: String!) {
