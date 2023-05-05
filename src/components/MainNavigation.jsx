@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { AppBar, Toolbar, Menu, MenuItem, Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -31,6 +31,7 @@ const MainNavigation = () => {
     setAnchorEl(null);
     navigate('/create-post');
   };
+
   const profilePage = () => {
     setAnchorEl(null);
     navigate(`/profile/${user.user.id}`);
