@@ -8,7 +8,7 @@ BlogTonic is an ideal platform for bloggers, writers, and content creators of al
 
 ### Prerequisites
 
-- Node.js (version 16 or higher)
+- [Node.js](https://nodejs.org/en) (version 16 or higher)
 - npm or yarn package manager
 
 ### Installing
@@ -44,4 +44,4 @@ npm  run  build
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ramizwd/BlogTonic/blob/main/LICENSE) file for details.
