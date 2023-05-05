@@ -98,7 +98,7 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [userId]);
 
   if (posts === null || likedPosts === null || userProfile === null) {
     return <CircularProgress color="inherit" />;
