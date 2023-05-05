@@ -153,7 +153,7 @@ export const ProfilePage = () => {
       </Box>
       <Box>
         <Tabs value={selectedTab} onChange={handleTabChange} centered>
-          <Tab sx={{ outline: 'none !important' }} label="My Posts" />
+          <Tab sx={{ outline: 'none !important' }} label={user.user.id === userProfile.id ? 'My Posts' : 'Posts'} />
           <Tab sx={{ outline: 'none !important' }} label="Liked Posts" />
         </Tabs>
         {selectedTab === 0 ? (
