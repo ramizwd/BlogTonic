@@ -42,6 +42,10 @@ To build the application, run the following command:
 npm  run  build
 ```
 
+## Fixes after 5.5
+- Minor UI change in profile [0969a72](https://github.com/ramizwd/BlogTonic/commit/0969a7261edaec68409240bfc8dfee362200be34)
+- Fixed updating profile info when navigating from a random's profile [17c6768](https://github.com/ramizwd/BlogTonic/commit/17c6768b70a788d75808555255160548696afa34)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ramizwd/BlogTonic/blob/main/LICENSE) file for details.
